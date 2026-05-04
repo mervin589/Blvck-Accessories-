@@ -647,4 +647,262 @@
           </div>
           <div class="cart-item-controls">
             <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
-            <
+               <div class="product-info">
+                    <div class="product-name">White Tee</div>
+                    <div class="product-price">MK 15,000</div>
+                    <button class="add-to-cart" onclick="addToCart('White Tee', 15000)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">👕</div>
+                <div class="product-info">
+                    <div class="product-name">Black Tee</div>
+                    <div class="product-price">MK 15,000</div>
+                    <button class="add-to-cart" onclick="addToCart('Black Tee', 15000)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">🧢</div>
+                <div class="product-info">
+                    <div class="product-name">BLVCK Cap</div>
+                    <div class="product-price">MK 12,000</div>
+                    <button class="add-to-cart" onclick="addToCart('BLVCK Cap', 12000)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">👜</div>
+                <div class="product-info">
+                    <div class="product-name">Tote Bag</div>
+                    <div class="product-price">MK 18,000</div>
+                    <button class="add-to-cart" onclick="addToCart('Tote Bag', 18000)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cart" class="cart-section">
+        <div class="cart-container">
+            <h2 class="section-title">Your Cart</h2>
+            <div id="cartItems"></div>
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">MK 0</span>
+            </div>
+            
+            <div class="delivery-options">
+                <h3>Delivery Method</h3>
+                <label class="delivery-option">
+                    <input type="radio" name="delivery" value="CTS Courier" data-price="3000">
+                    <span>CTS Courier - MK 3,000</span>
+                </label>
+                <label class="delivery-option">
+                    <input type="radio" name="delivery" value="Post Office" data-price="2500">
+                    <span>Post Office - MK 2,500</span>
+                </label>
+                <label class="delivery-option">
+                    <input type="radio" name="delivery" value="Speed Courier" data-price="4000">
+                    <span>Speed Courier - MK 4,000</span>
+                </label>
+                <label class="delivery-option">
+                    <input type="radio" name="delivery" value="Door by Door" data-price="5000">
+                    <span>Door by Door - MK 5,000</span>
+                </label>
+            </div>
+
+            <button class="checkout-btn" onclick="checkout()">Checkout via WhatsApp</button>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="about-container">
+            <h2 class="section-title">About BLVCK</h2>
+            <p>We don't make accessories. We sell and curate premium pieces for those who move different. For men and women who understand that style is intentional. Every item is handpicked for quality, design, and attitude.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="logo.png" alt="BLVCK Logo">
+                BLVCK
+            </div>
+            <div class="footer-links">
+                <a href="#shop">Shop</a>
+                <a href="#about">About</a>
+                <a href="#cart">Cart</a>
+                <a href="#" onclick="showAdmin(); return false;">Admin</a>
+            </div>
+            <p>&copy; 2026 BLVCK Accessories. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAdmin()">&times;</span>
+            <h2>Admin Panel</h2>
+            <input type="password" id="adminPass" placeholder="Enter password">
+            <button onclick="loginAdmin()">Login</button>
+            <div id="adminPanel" style="display:none;">
+                <h3>Add Product</h3>
+                <input type="text" id="productName" placeholder="Product Name">
+                <input type="number" id="productPrice" placeholder="Price in MK">
+                <input type="text" id="productEmoji" placeholder="Emoji/Icon">
+                <button onclick="addProduct()">Add Product</button>
+                <h3>Current Products</h3>
+                <div id="productList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+        let products = [
+            {name: 'White Tee', price: 15000, emoji: '👕'},
+            {name: 'Black Tee', price: 15000, emoji: '👕'},
+            {name: 'BLVCK Cap', price: 12000, emoji: '🧢'},
+            {name: 'Tote Bag', price: 18000, emoji: '👜'}
+        ];
+
+        function addToCart(name, price) {
+            cart.push({name, price});
+            updateCart();
+            document.getElementById('cartCount').textContent = cart.length;
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            cartItems.innerHTML = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                total += item.price;
+                cartItems.innerHTML += `
+                    <div class="cart-item">
+                        <span>${item.name}</span>
+                        <span>MK ${item.price.toLocaleString()}</span>
+                        <button onclick="removeFromCart(${index})">×</button>
+                    </div>
+                `;
+            });
+
+            const delivery = document.querySelector('input[name="delivery"]:checked');
+            if (delivery) {
+                total += parseInt(delivery.dataset.price);
+            }
+            cartTotal.textContent = `MK ${total.toLocaleString()}`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+            document.getElementById('cartCount').textContent = cart.length;
+        }
+
+        document.querySelectorAll('input[name="delivery"]').forEach(radio => {
+            radio.addEventListener('change', updateCart);
+        });
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty');
+                return;
+            }
+            const delivery = document.querySelector('input[name="delivery"]:checked');
+            if (!delivery) {
+                alert('Please select a delivery method');
+                return;
+            }
+
+            let message = `Hi BLVCK! New order:%0A%0A`;
+            let subtotal = 0;
+            cart.forEach(item => {
+                message += `• ${item.name} - MK ${item.price.toLocaleString()}%0A`;
+                subtotal += item.price;
+            });
+            const deliveryPrice = parseInt(delivery.dataset.price);
+            const total = subtotal + deliveryPrice;
+            message += `%0ASubtotal: MK ${subtotal.toLocaleString()}%0A`;
+            message += `Delivery (${delivery.value}): MK ${deliveryPrice.toLocaleString()}%0A`;
+            message += `Total: MK ${total.toLocaleString()}%0A%0A`;
+            message += `Name:%0APhone:%0AAddress:`;
+
+            window.open(`https://wa.me/265881887598?text=${message}`, '_blank');
+        }
+
+        function showAdmin() {
+            document.getElementById('adminModal').style.display = 'block';
+        }
+
+        function closeAdmin() {
+            document.getElementById('adminModal').style.display = 'none';
+        }
+
+        function loginAdmin() {
+            const pass = document.getElementById('adminPass').value;
+            if (pass === 'blvck2024') {
+                document.getElementById('adminPanel').style.display = 'block';
+                loadProducts();
+            } else {
+                alert('Wrong password');
+            }
+        }
+
+        function loadProducts() {
+            const list = document.getElementById('productList');
+            list.innerHTML = '';
+            products.forEach((p, i) => {
+                list.innerHTML += `
+                    <div class="admin-product">
+                        ${p.emoji} ${p.name} - MK ${p.price.toLocaleString()}
+                        <button onclick="deleteProduct(${i})">Delete</button>
+                    </div>
+                `;
+            });
+        }
+
+        function addProduct() {
+            const name = document.getElementById('productName').value;
+            const price = parseInt(document.getElementById('productPrice').value);
+            const emoji = document.getElementById('productEmoji').value;
+            if (name && price && emoji) {
+                products.push({name, price, emoji});
+                loadProducts();
+                renderProducts();
+            }
+        }
+
+        function deleteProduct(i) {
+            products.splice(i, 1);
+            loadProducts();
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+            products.forEach(p => {
+                grid.innerHTML += `
+                    <div class="product-card">
+                        <div class="product-img">${p.emoji}</div>
+                        <div class="product-info">
+                            <div class="product-name">${p.name}</div>
+                            <div class="product-price">MK ${p.price.toLocaleString()}</div>
+                            <button class="add-to-cart" onclick="addToCart('${p.name}', ${p.price})">Add to Cart</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('adminModal')) {
+                closeAdmin();
+            }
+        }
+    </script>
+</body>
+</html>
