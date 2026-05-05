@@ -36,11 +36,26 @@ button:hover { opacity: 0.8; }
 .cart-item { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #333; }
 .admin-panel { background: #1a1a1a; padding: 30px; margin-top: 20px; border: 1px solid #333; }
 @media (max-width: 768px) { .hero h1 { font-size: 32px; } .products { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+.logo img {
+  height: 40px;
+  width: auto;
+}
 </style>
 </head>
 <body>
 <header>
-<div class="logo">BLVCK</div>
+<div class="logo">
+  <img src="YOUR-LOGO-URL-HERE" alt="Blvck Accessories">
+  <span>Blvck Accessories</span>
+</div>
 <div class="nav-icons">
 <svg onclick="openModal('searchModal')" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
 <svg onclick="openModal('accountModal')" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
@@ -124,9 +139,12 @@ button:hover { opacity: 0.8; }
 </div>
 
 <footer style="padding: 60px 5%; text-align: center; border-top: 1px solid #222; color: #666;">
-<p>&copy; 2026 BLVCK ACCESSORIES. ALL RIGHTS RESERVED.</p>
+  <div class="logo" style="justify-content: center; margin-bottom: 15px;">
+    <img src="YOUR-LOGO-URL-HERE" alt="Blvck Accessories">
+    <span>Blvck Accessories</span>
+  </div>
+  <p>&copy; 2026 BLVCK ACCESSORIES. ALL RIGHTS RESERVED.</p>
 </footer>
-
 <script>
 alert('JS is running');
 
@@ -144,13 +162,17 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function openModal(id) {
-    document.getElementById(id).style.display = 'block';
+    const modal = document.getElementById(id);
+    modal.style.display = 'block';
+    setTimeout(() => { modal.style.opacity = '1'; }, 10);
     if (id === 'cartModal') renderCart();
     if (id === 'checkoutModal') updateDeliveryPrice();
 }
 
 function closeModal(id) {
-    document.getElementById(id).style.display = 'none';
+    const modal = document.getElementById(id);
+    modal.style.opacity = '0';
+    setTimeout(() => { modal.style.display = 'none'; }, 300);
 }
 
 function filterProducts(category) {
@@ -234,8 +256,15 @@ function addProduct() {
 
 function updateDeliveryPrice() {
     const delivery = document.getElementById('deliveryType').value;
+    const prices = {
+        pickup: 0,
+        postoffice: 0,
+        speedcourier: 0,
+        ctscourier: 0
+    };
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-    const total = delivery === 'delivery' ? subtotal + 2000 : subtotal;
+    const deliveryFee = prices[delivery] || 0;
+    const total = subtotal + deliveryFee;
     document.getElementById('finalTotal').textContent = 'Total: MWK ' + total.toLocaleString();
 }
 
