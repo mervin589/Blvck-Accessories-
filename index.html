@@ -1,1 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLVCK ACCESSORIES | Malawi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --gold: #c5a059; --black: #000; --dark: #0a0a0a; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--black); color: #fff; font-family: sans-serif; }
+        
+        /* Navigation */
+        header { background: var(--dark); padding: 20px; border-bottom: 1px solid #1a1a1a; position: sticky; top: 0; z-index: 100; }
+        .nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 900; letter-spacing: 3px; text-transform: uppercase; color: #fff; text-decoration: none; }
+        .logo span { color: var(--gold); }
+        .icons { display: flex; gap: 20px; font-size: 1.2rem; }
+        .icons i { cursor: pointer; transition: 0.3s; }
+        .icons i:hover { color: var(--gold); }
+        
+        /* Category Bar */
+        .cats { padding: 15px; overflow-x: auto; white-space: nowrap; text-align: center; background: #050505; border-bottom: 1px solid #111; }
+        .cat-btn { display: inline-block; padding: 8px 15px; margin: 0 5px; border: 1px solid #333; font-size: 11px; text-transform: uppercase; color: #888; cursor: pointer; }
+        .cat-btn.active { border-color: var(--gold); color: var(--gold); }
 
+        /* Product Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding: 30px; max-width: 1100px; margin: 0 auto; }
+        .card { background: var(--dark); border: 1px solid #111; padding: 15px; text-align: center; transition: 0.3s; }
+        .card:hover { border-color: var(--gold); }
+        .p-img { width: 100%; height: 300px; object-fit: cover; margin-bottom: 15px; background: #111; }
+        .p-name { font-weight: bold; margin-bottom: 5px; text-transform: uppercase; font-size: 0.9rem; }
+        .p-price { color: var(--gold); font-weight: bold; margin-bottom: 15px; }
+
+        /* Buttons */
+        .btn { width: 100%; padding: 12px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 11px; }
+        .btn-gold { background: var(--gold); color: #000; }
+        .btn-outline { background: transparent; border: 1px solid #444; color: #fff; margin-top: 10px; }
+
+        /* Modals */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; overflow-y: auto; }
+        .modal-content { background: var(--dark); max-width: 450px; margin: 40px auto; padding: 25px; border: 1px solid #222; }
+        input, select { width: 100%; padding: 12px; background: #111; border: 1px solid #222; color: #fff; margin: 10px 0; }
+        label { font-size: 10px; color: var(--gold); text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav">
+            <a href="#" class="logo">BLVCK <span>ACCESSORIES</span></a>
+            <div class="icons">
+                <i class="fas fa-user-circle" onclick="openM('adminLogin')"></i>
+                <div style="position:relative">
+                    <i class="fas fa-shopping-bag" onclick="openM('cartModal')"></i>
+                    <span id="count" style="position:absolute; top:-10px; right:-10px; background:var(--gold); color:#000; font-size:9px; padding:2px 5px; border-radius:50%">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="cats" id="catList"></div>
+    <div class="grid" id="pGrid"></div>
+
+    <!-- Modals -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom:20px">YOUR BAG</h2>
+            <div id="bagItems"></div>
+            <div id="bagTotal" style="margin:20px 0; border-top:1px solid #222; padding-top:10px"></div>
+            <button class="btn btn-gold" onclick="closeM('cartModal'); openM('checkModal')">Checkout</button>
+            <button class="btn btn-outline" onclick="closeM('cartModal')">Close</button>
+        </div>
+    </div>
+
+    <div id="checkModal" class="modal">
+        <div class="modal-content">
+            <h2>ORDER DETAILS</h2>
+            <label>Name</label><input type="text" id="custName">
+            <label>Malawi District</label>
+            <select id="custDist">
+                <option>Blantyre</option><option>Lilongwe</option><option>Zomba</option><option>Mzuzu</option>
+                <option>Mangochi</option><option>Kasungu</option><option>Dedza</option><option>Karonga</option>
+                <option>Mzimba</option><option>Mchinji</option><option>Dowa</option><option>Balaka</option>
+                <option>Ntcheu</option><option>Chitipa</option><option>Mulanje</option><option>Salima</option>
+                <option>Nkhata Bay</option><option>Nkhotakota</option><option>Thyolo</option><option>Rumphi</option>
+                <option>Nsanje</option><option>Chikwawa</option><option>Chiradzulu</option><option>Phalombe</option>
+                <option>Mwanza</option><option>Neno</option><option>Ntchisi</option><option>Likoma</option>
+            </select>
+            <label>Courier Service</label>
+            <select id="custCour">
+                <option>Door to Door</option><option>CTS Courier</option><option>Post Office</option><option>Speed Courier</option>
+            </select>
+            <button class="btn btn-gold" onclick="sendOrder()">Send to WhatsApp</button>
+            <button class="btn btn-outline" onclick="closeM('checkModal')">Cancel</button>
+        </div>
+    </div>
+
+    <div id="adminLogin" class="modal">
+        <div class="modal-content">
+            <h3>Admin Access</h3>
+            <input type="password" id="pass" placeholder="Key">
+            <button class="btn btn-gold" onclick="login()">Login</button>
+            <button class="btn btn-outline" style="color:red" onclick="reset()">Force Site Reset</button>
+            <button class="btn btn-outline" onclick="closeM('adminLogin')">Close</button>
+        </div>
+    </div>
+
+    <div id="dash" class="modal">
+        <div class="modal-content">
+            <h2>DASHBOARD</h2>
+            <button class="btn btn-gold" onclick="openM('addP')">Add New Item</button>
+            <div id="adminItems" style="margin-top:20px"></div>
+            <button class="btn btn-outline" onclick="closeM('dash')">Close</button>
+        </div>
+    </div>
+
+    <div id="addP" class="modal"><div class="modal-content">
+        <h3>New Product</h3>
+        <label>Category</label><select id="niCat"></select>
+        <label>Name</label><input type="text" id="niName">
+        <label>Price</label><input type="number" id="niPrice">
+        <label>Image URL</label><input type="text" id="niImg">
+        <button class="btn btn-gold" onclick="saveP()">Add to Store</button>
+    </div></div>
+
+    <script>
+        const PHONE = '265881887598';
+        let store = JSON.parse(localStorage.getItem('blv_s')) || [];
+        let cats = JSON.parse(localStorage.getItem('blv_c')) || ['All', 'Glasses', 'Hats', 'Bags'];
+        let bag = [];
+        let view = 'All';
+
+        function init() {
+            document.getElementById('catList').innerHTML = cats.map(c => `<div class="cat-btn ${view===c?'active':''}" onclick="setView('${c}')">${c}</div>`).join('');
+            document.getElementById('niCat').innerHTML = cats.filter(c => c!=='All').map(c => `<option>${c}</option>`).join('');
+            
+            const list = view === 'All' ? store : store.filter(i => i.cat === view);
+            document.getElementById('pGrid').innerHTML = list.map(i => `
+                <div class="card">
+                    <img src="${i.img}" class="p-img" onerror="this.src='https://via.placeholder.com/300x400/111/fff?text=BLVCK'">
+                    <div class="p-name">${i.name}</div>
+                    <div class="p-price">MK ${parseInt(i.price).toLocaleString()}</div>
+                    <button class="btn btn-gold" onclick="addBag(${i.id})">Add to Bag</button>
+                </div>`).join('');
+
+            document.getElementById('adminItems').innerHTML = store.map(i => `
+                <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #222;">
+                    <span>${i.name}</span>
+                    <i class="fas fa-trash" style="color:red" onclick="delP(${i.id})"></i>
+                </div>`).join('');
+        }
+
+        function setView(c) { view = c; init(); }
+        function openM(id) { document.getElementById(id).style.display = 'block'; }
+        function closeM(id) { document.getElementById(id).style.display = 'none'; }
+        
+        function addBag(id) { bag.push(store.find(i => i.id === id)); document.getElementById('count').innerText = bag.length; alert('Added.'); }
+
+        function saveP() {
+            store.push({ id:Date.now(), cat:document.getElementById('niCat').value, name:document.getElementById('niName').value, price:document.getElementById('niPrice').value, img:document.getElementById('niImg').value });
+            localStorage.setItem('blv_s', JSON.stringify(store));
+            init(); closeM('addP');
+        }
+
+        function delP(id) { store = store.filter(i => i.id !== id); localStorage.setItem('blv_s', JSON.stringify(store)); init(); }
+        function login() { if(document.getElementById('pass').value === 'blvck2024') { closeM('adminLogin'); openM('dash'); } }
+        function reset() { localStorage.clear(); location.reload(); }
+
+        function sendOrder() {
+            let m = `*ORDER FROM BLVCK ACCESSORIES*%0AName: ${document.getElementById('custName').value}%0ADistrict: ${document.getElementById('custDist').value}%0ACourier: ${document.getElementById('custCour').value}%0A%0AItems:%0A`;
+            bag.forEach(i => m += `- ${i.name} (MK ${i.price})%0A`);
+            window.open(`https://wa.me/${PHONE}?text=${m}`);
+        }
+
+        init();
+    </script>
+</body>
+</html>
