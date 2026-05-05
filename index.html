@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLVCK ACCESSORIES - Premium Tech & Fashion</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #0a0a0a; color: #fff; overflow-x: hidden; }
+header { position: fixed; top: 0; width: 100%; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); z-index: 1000; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; }
+.logo { font-size: 28px; font-weight: 900; letter-spacing: 3px; }
+.nav-icons { display: flex; gap: 25px; }
+.nav-icons svg { width: 24px; height: 24px; cursor: pointer; transition: opacity 0.3s; }
+.nav-icons svg:hover { opacity: 0.6; }
+.hero { margin-top: 80px; height: 60vh; background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 5%; }
+.hero h1 { font-size: 48px; font-weight: 900; letter-spacing: 5px; margin-bottom: 20px; }
+.hero p { font-size: 18px; color: #888; letter-spacing: 2px; }
+.filters { padding: 40px 5%; display: flex; gap: 15px; overflow-x: auto; border-bottom: 1px solid #222; }
+.filter-btn { padding: 12px 30px; background: transparent; border: 1px solid #333; color: #fff; cursor: pointer; white-space: nowrap; transition: all 0.3s; font-size: 14px; letter-spacing: 1px; }
+.filter-btn.active, .filter-btn:hover { background: #fff; color: #000; }
+.products { padding: 60px 5%; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; }
+.product-card { background: #111; border: 1px solid #222; transition: all 0.3s; cursor: pointer; }
+.product-card:hover { border-color: #555; transform: translateY(-5px); }
+.product-image { width: 100%; height: 350px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.product-image img { width: 100%; height: 100%; object-fit: cover; }
+.product-info { padding: 20px; }
+.product-name { font-size: 16px; margin-bottom: 10px; letter-spacing: 1px; }
+.product-price { font-size: 20px; font-weight: 700; color: #fff; }
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); overflow-y: auto; }
+.modal-content { background: #111; margin: 5% auto; padding: 40px; width: 90%; max-width: 600px; border: 1px solid #333; }
+.close { color: #aaa; float: right; font-size: 32px; font-weight: bold; cursor: pointer; }
+.close:hover { color: #fff; }
+input, select, textarea { width: 100%; padding: 15px; margin: 10px 0; background: #1a1a1a; border: 1px solid #333; color: #fff; font-size: 16px; }
+button { padding: 15px 40px; background: #fff; color: #000; border: none; cursor: pointer; font-weight: 700; letter-spacing: 1px; transition: opacity 0.3s; }
+button:hover { opacity: 0.8; }
+.cart-item { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #333; }
+.admin-panel { background: #1a1a1a; padding: 30px; margin-top: 20px; border: 1px solid #333; }
+@media (max-width: 768px) { .hero h1 { font-size: 32px; } .products { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+</style>
+</head>
+<body>
+<header>
+<div class="logo">BLVCK</div>
+<div class="nav-icons">
+<svg onclick="openModal('searchModal')" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+<svg onclick="openModal('accountModal')" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+<svg onclick="openModal('cartModal')" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 7H4L5 9z"/></svg>
+<span id="cartCount" style="position: absolute; top: 15px; right: 15px; background: #fff; color: #000; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;">0</span>
+</div>
+</header>
+
+<section class="hero">
+<div>
+<h1>JUST DROPPED</h1>
+<p>PREMIUM ACCESSORIES FOR THE BOLD</p>
+</div>
+</section>
+
+<section class="filters" id="filters">
+<button class="filter-btn active" onclick="filterProducts('All')">ALL</button>
+<button class="filter-btn" onclick="filterProducts('AirPods')">AIRPODS</button>
+<button class="filter-btn" onclick="filterProducts('Watches')">WATCHES</button>
+<button class="filter-btn" onclick="filterProducts('Bags')">BAGS</button>
+<button class="filter-btn" onclick="filterProducts('Sunglasses')">SUNGLASSES</button>
+</section>
+
+<section class="products" id="products"></section>
+
+<div id="searchModal" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closeModal('searchModal')">&times;</span>
+<h2>SEARCH</h2>
+<input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
+<div id="searchResults" style="margin-top: 20px;"></div>
+</div>
+</div>
+
+<div id="accountModal" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closeModal('accountModal')">&times;</span>
+<h2>ADMIN LOGIN</h2>
+<input type="password" id="adminPass" placeholder="Enter password">
+<button onclick="adminLogin()">LOGIN</button>
+<div id="adminPanel" style="display:none;" class="admin-panel">
+<h3>ADD PRODUCT</h3>
+<input type="text" id="prodName" placeholder="Product Name">
+<input type="number" id="prodPrice" placeholder="Price">
+<select id="prodCategory">
+<option value="AirPods">AirPods</option>
+<option value="Watches">Watches</option>
+<option value="Bags">Bags</option>
+<option value="Sunglasses">Sunglasses</option>
+</select>
+<input type="text" id="prodImages" placeholder="Image URLs comma separated">
+<textarea id="prodDesc" placeholder="Description"></textarea>
+<button onclick="addProduct()">ADD PRODUCT</button>
+</div>
+</div>
+</div>
+
+<div id="cartModal" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closeModal('cartModal')">&times;</span>
+<h2>CART</h2>
+<div id="cartItems"></div>
+<div id="cartTotal" style="margin-top: 20px; font-size: 24px; font-weight: 700;"></div>
+<button onclick="openModal('checkoutModal')" style="width: 100%; margin-top: 20px;">CHECKOUT</button>
+</div>
+</div>
+
+<div id="checkoutModal" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closeModal('checkoutModal')">&times;</span>
+<h2>CHECKOUT</h2>
+<input type="text" id="custName" placeholder="Full Name">
+<input type="text" id="custPhone" placeholder="Phone Number">
+<select id="deliveryType" onchange="updateDeliveryPrice()">
+<option value="pickup">Pickup - Free</option>
+<option value="delivery">Delivery - MWK 2,000</option>
+</select>
+<div id="finalTotal" style="margin: 20px 0; font-size: 24px;"></div>
+<button onclick="sendWhatsAppOrder()" style="width: 100%;">ORDER VIA WHATSAPP</button>
+</div>
+</div>
+
+<footer style="padding: 60px 5%; text-align: center; border-top: 1px solid #222; color: #666;">
+<p>&copy; 2026 BLVCK ACCESSORIES. ALL RIGHTS RESERVED.</p>
+</footer>
+
+<script>
+alert('JS is running');
+
+const ADMIN_PASSWORD = 'blvck2024';
+const WHATSAPP_NUMBER = '265881887598';
+let products = JSON.parse(localStorage.getItem('blvck_products')) || [];
+let cart = JSON.parse(localStorage.getItem('blvck_cart')) || [];
+let currentFilter = 'All';
+let currentImageIndex = 0;
+let currentProduct = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    renderProducts();
+    updateCartCount();
+});
+
+function openModal(id) {
+    document.getElementById(id).style.display = 'block';
+    if (id === 'cartModal') renderCart();
+    if (id === 'checkoutModal') updateDeliveryPrice();
+}
+
+function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+}
+
+function filterProducts(category) {
+    currentFilter = category;
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    renderProducts();
+}
+
+function renderProducts() {
+    const container = document.getElementById('products');
+    const filtered = currentFilter === 'All' ? products : products.filter(p => p.category === currentFilter);
+    container.innerHTML = filtered.map(p => `
+        <div class="product-card">
+            <div class="product-image"><img src="${p.images[0] || ''}" alt="${p.name}"></div>
+            <div class="product-info">
+                <div class="product-name">${p.name}</div>
+                <div class="product-price">MWK ${p.price.toLocaleString()}</div>
+                <button onclick="addToCart(${p.id})" style="width: 100%; margin-top: 15px;">ADD TO CART</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    if (!product) return;
+    const existing = cart.find(item => item.id === id);
+    if (existing) existing.qty += 1;
+    else cart.push({...product, qty: 1});
+    localStorage.setItem('blvck_cart', JSON.stringify(cart));
+    updateCartCount();
+    alert('Added to cart');
+}
+
+function updateCartCount() {
+    const count = cart.reduce((sum, item) => sum + item.qty, 0);
+    document.getElementById('cartCount').textContent = count;
+}
+
+function renderCart() {
+    const container = document.getElementById('cartItems');
+    if (cart.length === 0) {
+        container.innerHTML = '<p>Cart is empty</p>';
+        document.getElementById('cartTotal').textContent = '';
+        return;
+    }
+    const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    container.innerHTML = cart.map(item => `
+        <div class="cart-item">
+            <span>${item.name} x${item.qty}</span>
+            <span>MWK ${(item.price * item.qty).toLocaleString()}</span>
+        </div>
+    `).join('');
+    document.getElementById('cartTotal').textContent = 'Total: MWK ' + total.toLocaleString();
+}
+
+function adminLogin() {
+    const pass = document.getElementById('adminPass').value;
+    if (pass === ADMIN_PASSWORD) {
+        document.getElementById('adminPanel').style.display = 'block';
+    } else {
+        alert('Wrong password');
+    }
+}
+
+function addProduct() {
+    const product = {
+        id: Date.now(),
+        name: document.getElementById('prodName').value,
+        price: parseInt(document.getElementById('prodPrice').value),
+        category: document.getElementById('prodCategory').value,
+        images: document.getElementById('prodImages').value.split(','),
+        desc: document.getElementById('prodDesc').value
+    };
+    products.push(product);
+    localStorage.setItem('blvck_products', JSON.stringify(products));
+    renderProducts();
+    alert('Product added');
+}
+
+function updateDeliveryPrice() {
+    const delivery = document.getElementById('deliveryType').value;
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    const total = delivery === 'delivery' ? subtotal + 2000 : subtotal;
+    document.getElementById('finalTotal').textContent = 'Total: MWK ' + total.toLocaleString();
+}
+
+function sendWhatsAppOrder() {
+    const name = document.getElementById('custName').value;
+    const phone = document.getElementById('custPhone').value;
+    const delivery = document.getElementById('deliveryType').value;
+    if (!name || !phone) {
+        alert('Fill all fields');
+        return;
+    }
+    let message = `Order from ${name}%0APhone: ${phone}%0ADelivery: ${delivery}%0A%0AItems:%0A`;
+    cart.forEach(item => {
+        message += `${item.name} x${item.qty} - MWK ${(item.price * item.qty).toLocaleString()}%0A`;
+    });
+    const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0) + (delivery === 'delivery' ? 2000 : 0);
+    message += `%0ATotal: MWK ${total.toLocaleString()}`;
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
+}
+
+function searchProducts() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const results = products.filter(p => p.name.toLowerCase().includes(query));
+    document.getElementById('searchResults').innerHTML = results.map(p => `
+        <div style="padding: 10px; border-bottom: 1px solid #333;">${p.name} - MWK ${p.price.toLocaleString()}</div>
+    `).join('');
+}
+
+window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+    }
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.style.display = 'none';
+        });
+    }
+});
+</script>
+</body>
+</html>
