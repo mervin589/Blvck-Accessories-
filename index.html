@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Versioning to force cache refresh -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>BLVCK ACCESSORIES | Premium Minimalist Luxury</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --blvck: #000000;
+            --dark-gray: #0d0d0d;
+            --gold: #c5a059;
+            --white: #ffffff;
+        }
+
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {background: var(--blvck); color: var(--white); font-family: 'Segoe UI', sans-serif; overflow-x: hidden;}
+
+        /* Header Styling */
+        header {background: var(--dark-gray); padding: 20px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #222;}
+        .nav-container {max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;}
+        .logo {font-weight: 900; letter-spacing: 3px; text-transform: uppercase; font-size: 1.4rem; color: #fff; text-decoration: none;}
+        .logo span {color: var(--gold);}
+
+        .nav-icons {display: flex; gap: 20px; align-items: center;}
+        .nav-icons i {cursor: pointer; font-size: 1.2rem; transition: 0.3s;}
+        .nav-icons i:hover {color: var(--gold);}
+        
+        .cart-badge {background: var(--gold); color: #000; font-size: 10px; padding: 2px 6px; border-radius: 50%; position: absolute; top: -10px; right: -10px;}
+
+        /* Category Filter */
+        .cat-bar {padding: 20px; text-align: center; border-bottom: 1px solid #111; overflow-x: auto; white-space: nowrap;}
+        .cat-item {display: inline-block; padding: 8px 18px; margin: 0 5px; border: 1px solid #333; font-size: 0.7rem; cursor: pointer; letter-spacing: 1px; color: #888;}
+        .cat-item.active {border-color: var(--gold); color: var(--gold);}
+
+        /* Product Display */
+        .grid {display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; padding: 40px; max-width: 1200px; margin: 0 auto;}
+        .card {background: #050505; border: 1px solid #111; transition: 0.4s;}
+        .card:hover {border-color: var(--gold); transform: translateY(-5px);}
+        .p-img {width: 100%; height: 350px; object-fit: cover; background: #111;}
+        .p-info {padding: 20px; text-align: center;}
+        .p-name {font-weight: bold; margin-bottom: 10px; letter-spacing: 1px;}
+        .p-price {color: var(--gold); font-weight: bold; margin-bottom: 15px;}
+
+        /* Buttons */
+        .btn {width: 100%; padding: 12px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; transition: 0.3s;}
+        .btn-gold {background: var(--gold); color: #000;}
+        .btn-outline {background: transparent; border: 1px solid #444; color: #fff;}
+
+        /* Modals */
+        .modal {display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 1000;}
+        .modal-content {background: #080808; width: 90%; max-width: 500px; margin: 50px auto; padding: 30px; border: 1px solid #222;}
+        .close {float: right; font-size: 25px; cursor: pointer; color: var(--gold);}
+
+        input, select {width: 100%; padding: 12px; background: #111; border: 1px solid #222; color: #fff; margin-bottom: 15px;}
+        label {display: block; font-size: 0.7rem; color: var(--gold); margin-bottom: 5px; text-transform: uppercase;}
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">BLVCK <span>ACCESSORIES</span></a>
+            <div class="nav-icons">
+                <i class="fas fa-user-circle" onclick="openM('loginModal')"></i>
+                <div style="position: relative;">
+                    <i class="fas fa-shopping-bag" onclick="openM('cartModal')"></i>
+                    <span class="cart-badge" id="cBadge">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="cat-bar" id="catBar"></div>
+    <div class="grid" id="pGrid"></div>
+
+    <!-- Modals -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeM('cartModal')">&times;</span>
+            <h2 style="margin-bottom: 20px;">YOUR BAG</h2>
+            <div id="cartList"></div>
+            <div id="cartTotal" style="padding: 20px 0; border-top: 1px solid #222; margin-top: 10px; font-weight: bold;"></div>
+            <button class="btn btn-gold" onclick="goCheckout()">Proceed to Courier</button>
+        </div>
+    </div>
+
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeM('checkoutModal')">&times;</span>
+            <h2 style="margin-bottom: 20px;">DELIVERY DETAILS</h2>
+            <label>Name</label><input type="text" id="custName">
+            <label>Malawi District</label>
+            <select id="custDist">
+                <option value="Blantyre">Blantyre</option><option value="Lilongwe">Lilongwe</option>
+                <option value="Zomba">Zomba</option><option value="Mzuzu">Mzuzu</option>
+                <option value="Mangochi">Mangochi</option><option value="Salima">Salima</option>
+                <option value="Kasungu">Kasungu</option><option value="Dedza">Dedza</option>
+                <option value="Karonga">Karonga</option><option value="Nkhata Bay">Nkhata Bay</option>
+                <option value="Mzimba">Mzimba</option><option value="Mchinji">Mchinji</option>
+                <option value="Dowa">Dowa</option><option value="Balaka">Balaka</option>
+                <option value="Ntcheu">Ntcheu</option><option value="Chitipa">Chitipa</option>
+                <option value="Rumphi">Rumphi</option><option value="Nkhotakota">Nkhotakota</option>
+                <option value="Ntchisi">Ntchisi</option><option value="Mchinji">Mchinji</option>
+                <option value="Thyolo">Thyolo</option><option value="Mulanje">Mulanje</option>
+                <option value="Phalombe">Phalombe</option><option value="Chikwawa">Chikwawa</option>
+                <option value="Nsanje">Nsanje</option><option value="Chiradzulu">Chiradzulu</option>
+                <option value="Mwanza">Mwanza</option><option value="Neno">Neno</option>
+                <option value="Likoma">Likoma</option>
+            </select>
+            <label>Courier Choice</label>
+            <select id="custCourier">
+                <option>Door to Door</option><option>CTS Courier</option>
+                <option>Malawi Post Office</option><option>Speed Courier</option>
+            </select>
+            <button class="btn btn-gold" onclick="sendWA()">Confirm & WhatsApp</button>
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeM('loginModal')">&times;</span>
+            <h3>Admin Access</h3>
+            <input type="password" id="admPass" placeholder="Enter Key">
+            <button class="btn btn-gold" onclick="doLogin()">Login</button>
+            <button class="btn btn-outline" style="margin-top: 10px; color: #ff4444;" onclick="hardReset()">Reset Site Data</button>
+        </div>
+    </div>
+
+    <div id="adminModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="close" onclick="closeM('adminModal')">&times;</span>
+            <h2>DASHBOARD</h2>
+            <div style="display: flex; gap: 10px; margin: 20px 0;">
+                <button class="btn btn-gold" onclick="openM('addProdModal')">Add New Item</button>
+                <button class="btn btn-outline" onclick="addCat()">Add Category</button>
+            </div>
+            <div id="adminItems"></div>
+        </div>
+    </div>
+
+    <div id="addProdModal" class="modal"><div class="modal-content">
+        <span class="close" onclick="closeM('addProdModal')">&times;</span>
+        <h3>Product Details</h3>
+        <label>Category</label><select id="pCatIn"></select>
+        <label>Name</label><input type="text" id="pNameIn">
+        <label>Price</label><input type="number" id="pPriceIn">
+        <label>Image URL</label><input type="text" id="pImgIn">
+        <button class="btn btn-gold" onclick="saveP()">Add to Store</button>
+    </div></div>
+
+    <script>
+        const WA_PHONE = '265881887598';
+        let store = JSON.parse(localStorage.getItem('blv_st')) || [];
+        let cats = JSON.parse(localStorage.getItem('blv_ct')) || ['All', 'Glasses', 'Hats', 'Bags'];
+        let cart = [];
+        let filter = 'All';
+
+        function init() {
+            renderC();
+            renderP();
+        }
+
+        function renderC() {
+            document.getElementById('catBar').innerHTML = cats.map(c => 
+                `<div class="cat-item ${filter === c ? 'active' : ''}" onclick="setF('${c}')">${c}</div>`).join('');
+            document.getElementById('pCatIn').innerHTML = cats.filter(c => c !== 'All').map(c => `<option>${c}</option>`).join('');
+        }
+
+        function setF(c) { filter = c; renderC(); renderP(); }
+
+        function renderP() {
+            const list = filter === 'All' ? store : store.filter(i => i.cat === filter);
+            document.getElementById('pGrid').innerHTML = list.map(i => `
+                <div class="card">
+                    <img src="${i.img}" class="p-img" onerror="this.src='https://via.placeholder.com/400x500/111/fff?text=BLVCK'">
+                    <div class="p-info">
+                        <div class="p-name">${i.name}</div>
+                        <div class="p-price">MK ${parseInt(i.price).toLocaleString()}</div>
+                        <button class="btn btn-gold" onclick="addBag(${i.id})">Add to Bag</button>
+                    </div>
+                </div>`).join('');
+
+            document.getElementById('adminItems').innerHTML = store.map(i => `
+                <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #111;">
+                    <span>${i.name}</span>
+                    <i class="fas fa-trash" onclick="delP(${i.id})" style="color:red; cursor:pointer;"></i>
+                </div>`).join('');
+        }
+
+        function addBag(id) {
+            cart.push(store.find(i => i.id === id));
+            document.getElementById('cBadge').innerText = cart.length;
+            alert('Item added.');
+        }
+
+        function saveP() {
+            const p = { id: Date.now(), cat: document.getElementById('pCatIn').value, name: document.getElementById('pNameIn').value, price: document.getElementById('pPriceIn').value, img: document.getElementById('pImgIn').value };
+            store.push(p);
+            localStorage.setItem('blv_st', JSON.stringify(store));
+            renderP();
+            closeM('addProdModal');
+        }
+
+        function delP(id) { 
+            store = store.filter(i => i.id !== id); 
+            localStorage.setItem('blv_st', JSON.stringify(store)); 
+            renderP(); 
+        }
+
+        function addCat() {
+            const n = prompt("New Category Name:");
+            if(n) { cats.push(n); localStorage.setItem('blv_ct', JSON.stringify(cats)); renderC(); }
+        }
+
+        function sendWA() {
+            const name = document.getElementById('custName').value;
+            const dist = document.getElementById('custDist').value;
+            const cour = document.getElementById('custCourier').value;
+            let msg = `*BLVCK ORDER*%0AName: ${name}%0ADistrict: ${dist}%0ACourier: ${cour}%0A%0AItems:%0A`;
+            cart.forEach(i => msg += `- ${i.name} (MK ${i.price})%0A`);
+            window.open(`https://wa.me/${WA_PHONE}?text=${msg}`);
+        }
+
+        function openM(id) { document.getElementById(id).style.display = 'block'; }
+        function closeM(id) { document.getElementById(id).style.display = 'none'; }
+        function goCheckout() { closeM('cartModal'); openM('checkoutModal'); }
+        function doLogin() { if(document.getElementById('admPass').value === 'blvck2024') { closeM('loginModal'); openM('adminModal'); } else alert('Invalid'); }
+        function hardReset() { if(confirm("Clear all data and reset site?")) { localStorage.clear(); location.reload(); } }
+
+        init();
+    </script>
+</body>
+</html>
