@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLVCK ACCESSORIES | Premium Minimalist Luxury</title>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-black: #0a0a0a;
+            --secondary-black: #111;
+            --accent-gold: #c5a059;
+            --pure-white: #ffffff;
+            --gray-text: #888;
+        }
+
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #000; color: #fff; line-height: 1.6; overflow-x: hidden;}
+        .container {max-width: 1200px; margin: 0 auto; padding: 0 20px;}
+        
+        /* Header & Search */
+        header {background: var(--secondary-black); padding: 1.2rem 0; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #222;}
+        .nav {display: flex; justify-content: space-between; align-items: center; gap: 20px;}
+        .logo {display: flex; align-items: center; gap: 12px; font-size: 1.4rem; font-weight: 800; letter-spacing: 3px; cursor: pointer; text-decoration: none; color: #fff;}
+        .logo span {color: var(--accent-gold);}
+        
+        .search-container {flex: 1; max-width: 400px; position: relative; display: flex; align-items: center;}
+        .search-container input {width: 100%; background: #000; border: 1px solid #333; padding: 10px 40px 10px 15px; color: #fff; border-radius: 20px; outline: none; transition: 0.3s;}
+        .search-container input:focus {border-color: var(--accent-gold);}
+        .search-container i {position: absolute; right: 15px; color: #666;}
+
+        .nav-actions {display: flex; gap: 25px; align-items: center;}
+        .icon-btn {font-size: 1.3rem; color: #fff; cursor: pointer; position: relative; transition: 0.3s;}
+        .icon-btn:hover {color: var(--accent-gold);}
+        .cart-count {background: var(--accent-gold); color: #000; border-radius: 50%; padding: 2px 6px; font-size: 11px; font-weight: bold; position: absolute; top: -8px; right: -10px;}
+
+        /* Hero Section */
+        .hero {padding: 100px 0; text-align: center; background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?w=1200'); background-size: cover; background-position: center;}
+        .hero h1 {font-size: 3.5rem; margin-bottom: 1rem; letter-spacing: 5px; font-weight: 900;}
+        .hero p {color: var(--gray-text); font-size: 1.1rem; letter-spacing: 1px;}
+
+        /* Categories Navigation */
+        .category-bar {padding: 20px 0; background: #050505; border-bottom: 1px solid #111; overflow-x: auto; white-space: nowrap; text-align: center; scrollbar-width: none;}
+        .category-item {display: inline-block; padding: 10px 25px; margin: 0 8px; border: 1px solid #222; cursor: pointer; transition: 0.3s; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: #666;}
+        .category-item:hover, .category-item.active {border-color: var(--accent-gold); color: var(--accent-gold); background: rgba(197, 160, 89, 0.05);}
+
+        /* Product Display */
+        .products {padding: 60px 0; min-height: 500px;}
+        .product-grid {display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;}
+        .product-card {background: #0a0a0a; border: 1px solid #111; transition: 0.4s; overflow: hidden; position: relative;}
+        .product-card:hover {border-color: var(--accent-gold); transform: translateY(-5px);}
+        .product-img {width: 100%; height: 380px; object-fit: cover; filter: grayscale(40%); transition: 0.5s;}
+        .product-card:hover .product-img {filter: grayscale(0%);}
+        .product-info {padding: 25px; text-align: center;}
+        .product-cat {font-size: 0.65rem; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;}
+        .product-name {font-weight: bold; margin-bottom: 12px; font-size: 1.1rem; letter-spacing: 1px;}
+        .product-price {font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 20px;}
+
+        /* Buttons Styling */
+        .btn {padding: 14px 24px; border: none; cursor: pointer; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; width: 100%; font-size: 0.8rem;}
+        .btn-primary {background: #fff; color: #000;}
+        .btn-primary:hover {background: var(--accent-gold); color: #000;}
+        .btn-outline {background: transparent; border: 1px solid #333; color: #fff;}
+        .btn-outline:hover {border-color: var(--accent-gold); color: var(--accent-gold);}
+
+        /* Modals Layout */
+        .modal {display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 1000; overflow-y: auto;}
+        .modal-content {background: #0a0a0a; margin: 40px auto; padding: 40px; max-width: 550px; border: 1px solid #222; position: relative; border-radius: 2px;}
+        .close {position: absolute; right: 25px; top: 20px; font-size: 30px; cursor: pointer; color: var(--accent-gold);}
+        
+        .form-group {margin-bottom: 22px;}
+        .form-group label {display: block; margin-bottom: 10px; font-size: 0.75rem; color: var(--accent-gold); letter-spacing: 1px; text-transform: uppercase;}
+        .form-group input, .form-group select, .form-group textarea {width: 100%; padding: 14px; background: #111; border: 1px solid #222; color: #fff; font-size: 1rem; outline: none; transition: 0.3s;}
+        .form-group input:focus, .form-group select:focus {border-color: var(--accent-gold);}
+
+        /* Admin Dashboard Components */
+        .admin-item {display: flex; align-items: center; justify-content: space-between; background: #111; padding: 15px; margin-bottom: 10px; border: 1px solid #222;}
+        .admin-item img {width: 50px; height: 50px; object-fit: cover; margin-right: 15px;}
+
+        /* Footer Section */
+        footer {background: #050505; padding: 80px 0 40px; border-top: 1px solid #111;}
+        .footer-grid {display: grid; grid-template-columns: 1fr 1.5fr 1fr; gap: 50px; margin-bottom: 40px;}
+        .footer-about h4 {color: var(--accent-gold); margin-bottom: 20px; letter-spacing: 2px; font-size: 0.9rem;}
+        .footer-about p {color: #666; font-size: 0.9rem;}
+        .footer-links {display: flex; flex-direction: column; gap: 15px;}
+        .footer-links a {color: #fff; text-decoration: none; transition: 0.3s; font-size: 0.9rem;}
+        .footer-links a:hover {color: var(--accent-gold);}
+
+        @media (max-width: 768px) {
+            .footer-grid {grid-template-columns: 1fr;}
+            .hero h1 {font-size: 2.2rem;}
+            .footer-about {text-align: center;}
+            .nav-actions {gap: 15px;}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Header -->
+    <header>
+        <div class="container">
+            <div class="nav">
+                <a href="#" class="logo"><span>BLVCK</span> ACCESSORIES</a>
+                
+                <div class="search-container">
+                    <input type="text" id="productSearch" placeholder="Search collection..." onkeyup="handleSearch()">
+                    <i class="fas fa-search"></i>
+                </div>
+
+                <div class="nav-actions">
+                    <div class="icon-btn" onclick="openModal('loginModal')"><i class="fas fa-user-circle"></i></div>
+                    <div class="icon-btn" onclick="openModal('cartModal')">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Visual Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1>ESSENTIAL LUXURY</h1>
+            <p>Curated premium goods for those who appreciate the finer details.</p>
+        </div>
+    </section>
+
+    <!-- Category Filter Bar -->
+    <div class="category-bar" id="categoryBar"></div>
+
+    <!-- Product Grid Section -->
+    <section class="products">
+        <div class="container">
+            <div class="product-grid" id="productGrid"></div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('cartModal')">&times;</span>
+            <h2 style="margin-bottom: 30px; letter-spacing: 2px;">YOUR SHOPPING BAG</h2>
+            <div id="cartItems"></div>
+            <div id="cartTotal" style="margin: 25px 0; font-weight: bold; font-size: 1.2rem; color: var(--accent-gold); border-top: 1px solid #222; padding-top: 20px;"></div>
+            <button class="btn btn-primary" onclick="handleCheckout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal (Districts & Couriers) -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('checkoutModal')">&times;</span>
+            <h2 style="margin-bottom: 25px; letter-spacing: 1px;">DELIVERY DETAILS</h2>
+            
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="cName" placeholder="Enter your full name">
+            </div>
+            
+            <div class="form-group">
+                <label>WhatsApp Number</label>
+                <input type="tel" id="cPhone" placeholder="e.g. 099xxxxxxx">
+            </div>
+            
+            <div class="form-group">
+                <label>District (Malawi)</label>
+                <select id="cDistrict">
+                    <option value="" disabled selected>Select District</option>
+                    <option value="Balaka">Balaka</option><option value="Blantyre">Blantyre</option>
+                    <option value="Chikwawa">Chikwawa</option><option value="Chiradzulu">Chiradzulu</option>
+                    <option value="Chitipa">Chitipa</option><option value="Dedza">Dedza</option>
+                    <option value="Dowa">Dowa</option><option value="Karonga">Karonga</option>
+                    <option value="Kasungu">Kasungu</option><option value="Likoma">Likoma</option>
+                    <option value="Lilongwe">Lilongwe</option><option value="Machinga">Machinga</option>
+                    <option value="Mangochi">Mangochi</option><option value="Mchinji">Mchinji</option>
+                    <option value="Mulanje">Mulanje</option><option value="Mwanza">Mwanza</option>
+                    <option value="Mzimba">Mzimba</option><option value="Neno">Neno</option>
+                    <option value="Nkhata Bay">Nkhata Bay</option><option value="Nkhotakota">Nkhotakota</option>
+                    <option value="Nsanje">Nsanje</option><option value="Ntcheu">Ntcheu</option>
+                    <option value="Ntchisi">Ntchisi</option><option value="Phalombe">Phalombe</option>
+                    <option value="Rumphi">Rumphi</option><option value="Salima">Salima</option>
+                    <option value="Thyolo">Thyolo</option><option value="Zomba">Zomba</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Preferred Courier Service</label>
+                <select id="cCourier">
+                    <option value="Door to Door">Door to Door Delivery</option>
+                    <option value="CTS Courier">CTS Courier</option>
+                    <option value="Post Office (EMS)">Malawi Post Office (EMS)</option>
+                    <option value="Speed Courier">Speed Courier</option>
+                </select>
+            </div>
+
+            <div id="finalSummary" style="padding: 20px; background: #000; border: 1px solid #222; margin-bottom: 20px; font-size: 0.95rem;"></div>
+            
+            <p style="font-size: 0.7rem; color: #555; margin-bottom: 15px; text-align: center;">*Note: Courier delivery fees are calculated separately upon confirmation.</p>
+            <button class="btn btn-primary" onclick="sendOrder()">Confirm & Order via WhatsApp</button>
+        </div>
+    </div>
+
+    <!-- Hidden Admin Panel -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content" style="max-width: 850px;">
+            <span class="close" onclick="closeModal('adminModal')">&times;</span>
+            <h2 style="margin-bottom: 25px; border-bottom: 1px solid #222; padding-bottom: 10px;">STORE MANAGEMENT</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px;">
+                <button class="btn btn-primary" onclick="openModal('addProductModal')">Add New Product</button>
+                <button class="btn btn-outline" onclick="openModal('manageCatModal')">Manage Categories</button>
+            </div>
+
+            <h3 style="margin-bottom: 20px; font-size: 1rem; letter-spacing: 1px;">LIVE PRODUCTS</h3>
+            <div id="adminProductList"></div>
+        </div>
+    </div>
+
+    <!-- Product Creation Form -->
+    <div id="addProductModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('addProductModal')">&times;</span>
+            <h2>ADD PRODUCT</h2>
+            <div class="form-group"><label>Product Category</label><select id="newPCat"></select></div>
+            <div class="form-group"><label>Product Name</label><input type="text" id="newPName"></div>
+            <div class="form-group"><label>Price (MK)</label><input type="number" id="newPPrice"></div>
+            <div class="form-group"><label>Image URL</label><input type="text" id="newPImg"></div>
+            <button class="btn btn-primary" onclick="saveNewProduct()">Add to Inventory</button>
+        </div>
+    </div>
+
+    <!-- Category Management Form -->
+    <div id="manageCatModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('manageCatModal')">&times;</span>
+            <h2>STORE CATEGORIES</h2>
+            <div class="form-group" style="display: flex; gap: 10px; margin-top: 25px;">
+                <input type="text" id="catInput" placeholder="Category Name (e.g. Glasses)">
+                <button class="btn btn-primary" style="width: auto; padding: 0 20px;" onclick="addNewCat()">Add</button>
+            </div>
+            <div id="adminCatList"></div>
+        </div>
+    </div>
+
+    <!-- Admin Authentication -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2 style="text-align: center; letter-spacing: 2px;">ADMIN LOGIN</h2>
+            <input type="password" id="adminKey" placeholder="Enter Access Key" style="width:100%; padding:15px; background:#111; border:1px solid #222; color:#fff; margin:25px 0;">
+            <button class="btn btn-primary" onclick="tryLogin()">Login</button>
+        </div>
+    </div>
+
+    <!-- Footer Area -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="logo"><span>BLVCK</span> ACCESSORIES</div>
+                <div class="footer-about">
+                    <h4>OUR BRAND</h4>
+                    <p>BLVCK ACCESSORIES is a premier Malawian boutique. We provide high-end, monochromatic accessories and lifestyle products tailored for the modern minimalist.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>CONTACT US</h4>
+                    <a href="https://wa.me/265881887598" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Business</a>
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                </div>
+            </div>
+            <div style="text-align: center; color: #222; font-size: 0.75rem; border-top: 1px solid #111; padding-top: 30px; letter-spacing: 1px;">
+                &copy; 2026 BLVCK ACCESSORIES. ALL RIGHTS RESERVED.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Core Store Logic -->
+    <script>
+        const WA_PHONE = '265881887598';
+        const ADMIN_PASS = 'blvck2024';
+
+        // Load Data from Browser Storage
+        let products = JSON.parse(localStorage.getItem('blvck_p')) || [];
+        let cats = JSON.parse(localStorage.getItem('blvck_c')) || ['All', 'Glasses', 'Bags', 'Hats'];
+        let cart = [];
+        let activeFilter = 'All';
+
+        function init() {
+            renderCats();
+            renderProducts();
+            updateCartUI();
+        }
+
+        // --- Category Management ---
+        function renderCats() {
+            const bar = document.getElementById('categoryBar');
+            bar.innerHTML = cats.map(c => `
+                <div class="category-item ${activeFilter === c ? 'active' : ''}" onclick="setFilter('${c}')">
+                    ${c}
+                </div>
+            `).join('');
+            
+            const select = document.getElementById('newPCat');
+            select.innerHTML = cats.filter(c => c !== 'All').map(c => `<option value="${c}">${c}</option>`).join('');
+
+            const list = document.getElementById('adminCatList');
+            list.innerHTML = cats.filter(c => c !== 'All').map(c => `
+                <div class="admin-item">
+                    <span>${c}</span>
+                    <i class="fas fa-trash-alt" style="color:#ff4444; cursor:pointer" onclick="deleteCat('${c}')"></i>
+                </div>
+            `).join('');
+        }
+
+        function setFilter(c) { activeFilter = c; renderCats(); renderProducts(); }
+        
+        function addNewCat() {
+            const val = document.getElementById('catInput').value.trim();
+            if(val && !cats.includes(val)) { 
+                cats.push(val); 
+                saveData(); 
+                renderCats(); 
+                document.getElementById('catInput').value = ''; 
+            }
+        }
+
+        function deleteCat(c) { 
+            if(confirm(`Remove "${c}" category?`)) {
+                cats = cats.filter(item => item !== c); 
+                saveData(); 
+                renderCats(); 
+            }
+        }
+
+        // --- Product Management ---
+        function renderProducts(filteredList = null) {
+            const grid = document.getElementById('productGrid');
+            const list = filteredList || (activeFilter === 'All' ? products : products.filter(p => p.cat === activeFilter));
+            
+            if(list.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 50px; color: #444;">No items found in this collection.</div>`;
+            } else {
+                grid.innerHTML = list.map(p => `
+                    <div class="product-card">
+                        <img src="${p.img}" class="product-img" onerror="this.src='https://via.placeholder.com/400x500/111/fff?text=BLVCK+ITEM'">
+                        <div class="product-info">
+                            <div class="product-cat">${p.cat}</div>
+                            <div class="product-name">${p.name}</div>
+                            <div class="product-price">MK ${parseInt(p.price).toLocaleString()}</div>
+                            <button class="btn btn-primary" onclick="addToBag(${p.id})">Add to Bag</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Admin List
+            document.getElementById('adminProductList').innerHTML = products.map(p => `
+                <div class="admin-item">
+                    <img src="${p.img}">
+                    <div style="flex:1;">
+                        <div style="font-weight:bold;">${p.name}</div>
+                        <div style="font-size:0.8rem; color:#666;">${p.cat} - MK ${parseInt(p.price).toLocaleString()}</div>
+                    </div>
+                    <i class="fas fa-times" style="color:#ff4444; cursor:pointer; font-size:1.2rem;" onclick="deleteProduct(${p.id})"></i>
+                </div>
+            `).join('');
+        }
+
+        function handleSearch() {
+            const q = document.getElementById('productSearch').value.toLowerCase();
+            const filtered = products.filter(p => p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q));
+            renderProducts(filtered);
+        }
+
+        function saveNewProduct() {
+            const p = {
+                id: Date.now(),
+                cat: document.getElementById('newPCat').value,
+                name: document.getElementById('newPName').value,
+                price: document.getElementById('newPPrice').value,
+                img: document.getElementById('newPImg').value
+            };
+            if(!p.name || !p.price || !p.cat) return alert('Please provide all details.');
+            products.push(p); 
+            saveData(); 
+            renderProducts(); 
+            closeModal('addProductModal');
+            // Reset form
+            document.getElementById('newPName').value = '';
+            document.getElementById('newPPrice').value = '';
+            document.getElementById('newPImg').value = '';
+        }
+
+        function deleteProduct(id) { 
+            if(confirm('Permanently remove this product?')){ 
+                products = products.filter(p => p.id !== id); 
+                saveData(); 
+                renderProducts(); 
+            } 
+        }
+
+        // --- Shopping Bag & Checkout ---
+        function addToBag(id) {
+            const p = products.find(i => i.id === id);
+            const exist = cart.find(i => i.id === id);
+            if(exist) exist.qty++; else cart.push({...p, qty: 1});
+            updateCartUI();
+            alert(`${p.name} added to your bag.`);
+        }
+
+        function updateCartUI() {
+            document.getElementById('cartCount').textContent = cart.reduce((a, b) => a + b.qty, 0);
+            const itemsDiv = document.getElementById('cartItems');
+            
+            if(cart.length === 0) {
+                itemsDiv.innerHTML = `<p style="text-align:center; padding:30px; color:#444;">Your bag is empty.</p>`;
+                document.getElementById('cartTotal').innerHTML = "";
+            } else {
+                itemsDiv.innerHTML = cart.map(i => `
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #111; padding-bottom:10px;">
+                        <div>
+                            <div style="font-weight:bold;">${i.name}</div>
+                            <div style="font-size:0.8rem; color:#666;">MK ${parseInt(i.price).toLocaleString()} x ${i.qty}</div>
+                        </div>
+                        <div style="font-weight:bold;">MK ${(i.price * i.qty).toLocaleString()}</div>
+                    </div>
+                `).join('');
+                const total = cart.reduce((a, b) => a + (b.price * b.qty), 0);
+                document.getElementById('cartTotal').innerHTML = `Total Amount: MK ${total.toLocaleString()}`;
+            }
+        }
+
+        function handleCheckout() {
+            if(cart.length === 0) return alert('Your bag is empty.');
+            const total = cart.reduce((a, b) => a + (b.price * b.qty), 0);
+            document.getElementById('finalSummary').innerHTML = `
+                <strong>Order Total: MK ${total.toLocaleString()}</strong><br>
+                <span style="color:#666; font-size:0.8rem;">Excluding delivery fees.</span>
+            `;
+            closeModal('cartModal');
+            openModal('checkoutModal');
+        }
+
+        function sendOrder() {
+            const n = document.getElementById('cName').value;
+            const p = document.getElementById('cPhone').value;
+            const d = document.getElementById('cDistrict').value;
+            const c = document.getElementById('cCourier').value;
+            
+            if(!n || !p || !d) return alert('Please provide your name, phone, and district.');
+
+            let msg = `*BLVCK ACCESSORIES - NEW ORDER*%0A%0A`;
+            msg += `*Name:* ${n}%0A`;
+            msg += `*Contact:* ${p}%0A`;
+            msg += `*District:* ${d}%0A`;
+            msg += `*Courier:* ${c}%0A%0A`;
+            
+            msg += `*ITEMS:*%0A`;
+            cart.forEach(i => { 
+                msg += `- ${i.name} (x${i.qty}) - MK ${(i.price * i.qty).toLocaleString()}%0A`; 
+            });
+
+            const total = cart.reduce((a, b) => a + (b.price * b.qty), 0);
+            msg += `%0A*BAG TOTAL:* MK ${total.toLocaleString()}%0A%0A_Please advise on the final delivery cost._`;
+            
+            window.open(`https://wa.me/${WA_PHONE}?text=${msg}`, '_blank');
+            
+            // Clear cart and finish
+            cart = []; 
+            updateCartUI(); 
+            closeModal('checkoutModal');
+        }
+
+        // --- System Functions ---
+        function tryLogin() {
+            if(document.getElementById('adminKey').value === ADMIN_PASS) {
+                closeModal('loginModal'); 
+                openModal('adminModal');
+                document.getElementById('adminKey').value = '';
+            } else alert('Unauthorized access key.');
+        }
+
+        function openModal(id) { document.getElementById(id).style.display = 'block'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        
+        function saveData() { 
+            localStorage.setItem('blvck_p', JSON.stringify(products)); 
+            localStorage.setItem('blvck_c', JSON.stringify(cats)); 
+        }
+
+        // Close modal on outside click
+        window.onclick = (e) => { if(e.target.className === 'modal') e.target.style.display = 'none'; }
+        
+        init();
+    </script>
+</body>
+</html>
