@@ -6,15 +6,66 @@
 <title>BLVCK ACCESSORIES - Premium Tech & Fashion</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #0a0a0a; color: #fff; overflow-x: hidden; }
-header { position: fixed; top: 0; width: 100%; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); z-index: 1000; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; }
-.logo { font-size: 28px; font-weight: 900; letter-spacing: 3px; }
-.nav-icons { display: flex; gap: 25px; }
-.nav-icons svg { width: 24px; height: 24px; cursor: pointer; transition: opacity 0.3s; }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body { 
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; 
+  background: #0a0a0a; 
+  color: #fff; 
+  overflow-x: hidden; 
+}
+header { 
+  position: fixed; 
+  top: 0; 
+  width: 100%; 
+  background: rgba(10,10,10,0.95); 
+  backdrop-filter: blur(10px); 
+  z-index: 1000; 
+  padding: 16px 5%; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  border-bottom: 1px solid #222; 
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo img {
+  height: 36px;
+  width: auto;
+}
+.logo span {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.nav-icons { 
+  display: flex; 
+  gap: 18px; 
+}
+.nav-icons svg { 
+  width: 22px; 
+  height: 22px; 
+  cursor: pointer; 
+}
 .nav-icons svg:hover { opacity: 0.6; }
 .hero { margin-top: 80px; height: 60vh; background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 5%; }
-.hero h1 { font-size: 48px; font-weight: 900; letter-spacing: 5px; margin-bottom: 20px; }
-.hero p { font-size: 18px; color: #888; letter-spacing: 2px; }
+.hero h1 { 
+  font-size: 40px; 
+  font-weight: 700; 
+  letter-spacing: 2px; 
+  margin-bottom: 12px; 
+}
+.hero p { 
+  font-size: 16px; 
+  color: #888; 
+  letter-spacing: 1px; 
+  font-weight: 400;
+}
 .filters { padding: 40px 5%; display: flex; gap: 15px; overflow-x: auto; border-bottom: 1px solid #222; }
 .filter-btn { padding: 12px 30px; background: transparent; border: 1px solid #333; color: #fff; cursor: pointer; white-space: nowrap; transition: all 0.3s; font-size: 14px; letter-spacing: 1px; }
 .filter-btn.active, .filter-btn:hover { background: #fff; color: #000; }
@@ -53,7 +104,7 @@ button:hover { opacity: 0.8; }
 <body>
 <header>
 <div class="logo">
-  <img src="YOUR-LOGO-URL-HERE" alt="Blvck Accessories">
+  <img src="https://raw.githubusercontent.com/mervin589/mervin589.github.io/main/unnamed" alt="Blvck Accessories">
   <span>Blvck Accessories</span>
 </div>
 <div class="nav-icons">
