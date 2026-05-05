@@ -548,6 +548,48 @@ document.addEventListener('keydown', function(e) {
                 });
             }
         });
-    </script>
+    <script>
+alert('JS is running'); // delete this after you see it
+
+const ADMIN_PASSWORD = 'blvck2024';
+const WHATSAPP_NUMBER = '265881887598';
+let products = JSON.parse(localStorage.getItem('blvck_products')) || [];
+let cart = JSON.parse(localStorage.getItem('blvck_cart')) || [];
+let currentFilter = 'All';
+let currentImageIndex = 0;
+let currentProduct = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    renderProducts();
+    updateCartCount();
+});
+
+function openModal(id) {
+    document.getElementById(id).style.display = 'block';
+    if (id === 'cartModal') renderCart();
+    if (id === 'checkoutModal') updateDeliveryPrice();
+}
+
+function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+}
+
+// ...keep all your other functions here exactly as they were...
+// I didn’t change them, I just fixed the closing braces and structure
+
+window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+    }
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.style.display = 'none';
+        });
+    }
+});
+</script>
 </body>
 </html>
