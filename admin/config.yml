@@ -2,6 +2,7 @@ backend:
   name: github
   repo: mervin589/Blvck-Accessories-
   branch: main
+  auth_endpoint: https://api.staticcms.org/v1/auth
 
 media_folder: "images"
 public_folder: "/images"
