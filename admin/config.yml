@@ -7,8 +7,8 @@ backend:
 media_library:
   name: cloudinary
   config:
-    cloud_name: your_cloud_name
-    api_key: your_api_key
+    cloud_name: ddpxau7gi
+    api_key: 778782596942275
     
 collections:
     - name: "products"
