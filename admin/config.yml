@@ -4,13 +4,6 @@ backend:
   branch: main
   auth_endpoint: https://api.staticcms.org/v1/auth
 
-media_library:
-  name: cloudinary
-  config:
-    cloud_name: ddpxau7gi
-    api_key: 778782596942275
-    unsigned_upload_preset: ml_default
-    
 collections:
     - name: "products"
     label: "Products"
