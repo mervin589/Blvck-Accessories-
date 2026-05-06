@@ -4,9 +4,12 @@ backend:
   branch: main
   auth_endpoint: https://api.staticcms.org/v1/auth
 
-media_folder: "images"
-public_folder: "/images"
-
+media_library:
+  name: cloudinary
+  config:
+    cloud_name: your_cloud_name
+    api_key: your_api_key
+    
 collections:
     - name: "products"
     label: "Products"
