@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin - Blvck Accessories</title>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <title>Blvck Accessories Admin</title>
+ 
+  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 </head>
 <body>
   <script>
@@ -13,9 +14,7 @@
         backend: {
           name: "github",
           repo: "mervin589/Blvck-Accessories-",
-          branch: "main",
-          // This uses a public service to manage the login handshake safely
-          auth_endpoint: "https://api.staticcms.org/v1/auth"
+          branch: "main"
         },
         load_config_file: false,
         media_folder: "assets/products",
