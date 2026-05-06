@@ -4,8 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin - Blvck Accessories</title>
-  <!-- Using the Netlify CMS script for broader compatibility with GitHub uploads -->
-  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </head>
 <body>
   <script>
@@ -14,9 +13,11 @@
         backend: {
           name: "github",
           repo: "mervin589/Blvck-Accessories-",
-          branch: "main"
+          branch: "main",
+          // This uses a public service to manage the login handshake safely
+          auth_endpoint: "https://api.staticcms.org/v1/auth"
         },
-        load_config_file: false, // This tells the site to IGNORE your config.yml file
+        load_config_file: false,
         media_folder: "assets/products",
         public_folder: "/assets/products",
         collections: [
@@ -30,12 +31,7 @@
               {label: "Name", name: "name", widget: "string"},
               {label: "Price", name: "price", widget: "string"},
               {label: "Category", name: "category", widget: "select", options: ["AirPods", "Watches", "Bags", "Sunglasses"]},
-              {
-                label: "Product Image", 
-                name: "image", 
-                widget: "image", 
-                choose_url: false // Forces the upload button
-              },
+              {label: "Product Image", name: "image", widget: "image", choose_url: false},
               {label: "Description", name: "body", widget: "markdown"}
             ]
           }
