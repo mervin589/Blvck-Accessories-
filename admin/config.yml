@@ -9,6 +9,7 @@ media_library:
   config:
     cloud_name: ddpxau7gi
     api_key: 778782596942275
+    unsigned_upload_preset: ml_default
     
 collections:
     - name: "products"
