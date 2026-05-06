@@ -164,7 +164,47 @@ button:hover { opacity: 0.8; }
 </div>
 </div>
 
-<div id="cartModal" class="modal">
+<div class="modal-content">
+  <span class="close" onclick="closeModal('checkoutModal')">&times;</span>
+  <h2>CHECKOUT</h2>
+  <input type="text" id="custName" placeholder="Full Name">
+  <input type="text" id="custPhone" placeholder="Phone Number (e.g. 088...)">
+  
+  <label style="display:block; margin-top:10px; color:#888; font-size:12px;">SELECT DISTRICT</label>
+  <select id="custDistrict">
+    <option value="Blantyre">Blantyre</option><option value="Lilongwe">Lilongwe</option>
+    <option value="Mzuzu">Mzuzu</option><option value="Zomba">Zomba</option>
+    <option value="Balaka">Balaka</option><option value="Chikwawa">Chikwawa</option>
+    <option value="Chiradzulu">Chiradzulu</option><option value="Chitipa">Chitipa</option>
+    <option value="Dedza">Dedza</option><option value="Dowa">Dowa</option>
+    <option value="Karonga">Karonga</option><option value="Kasungu">Kasungu</option>
+    <option value="Likoma">Likoma</option><option value="Machinga">Machinga</option>
+    <option value="Mangoichi">Mangochi</option><option value="Mchinji">Mchinji</option>
+    <option value="Mulanje">Mulanje</option><option value="Mwanza">Mwanza</option>
+    <option value="Mzimba">Mzimba</option><option value="Neno">Neno</option>
+    <option value="Nkhata Bay">Nkhata Bay</option><option value="Nkhotakota">Nkhotakota</option>
+    <option value="Nsanje">Nsanje</option><option value="Ntcheu">Ntcheu</option>
+    <option value="Ntchisi">Ntchisi</option><option value="Phalombe">Phalombe</option>
+    <option value="Rumphi">Rumphi</option><option value="Salima">Salima</option>
+    <option value="Thyolo">Thyolo</option>
+  </select>
+
+  <label style="display:block; margin-top:10px; color:#888; font-size:12px;">DELIVERY METHOD</label>
+<select id="deliveryType" onchange="updateDeliveryPrice()">
+  <option value="pickup">In-Store Pickup (Free)</option>
+  <option value="post">Post Office (Free)</option>
+  <option value="speed">Speed Courier (Free)</option>
+  <option value="cts">CTS Courier (Free)</option>
+</select>
+    <option value="pickup">In-Store Pickup (Free)</option>
+    <option value="post">Post Office (Free)</option>
+    <option value="speed">Speed Courier (Free)</option>
+    <option value="cts">CTS Courier (Free)</option>
+  </select>
+
+  <div id="finalTotal" style="margin: 20px 0; font-size: 24px; font-weight:700; border-top:1px solid #333; pt:10px;"></div>
+  <button onclick="sendWhatsAppOrder()" style="width: 100%;">SEND ORDER VIA WHATSAPP</button>
+</div>
 <div class="modal-content">
 <span class="close" onclick="closeModal('cartModal')">&times;</span>
 <h2>CART</h2>
