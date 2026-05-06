@@ -2,7 +2,12 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blvck Accessories - Admin</title>
+  <!-- Using the latest Static CMS core for better upload support -->
+  <script src="https://unpkg.com/@staticcms/core@^4.0.0/dist/static-cms-core.js"></script>
+</head>
+<body>
   <script>
     window.CMS_CONFIG = {
       config: {
@@ -12,8 +17,8 @@
           branch: "main",
           auth_endpoint: "https://api.staticcms.org/v1/auth"
         },
-        // ADDED: This creates a folder in GitHub to store your uploaded photos
-        media_folder: "assets/products",
+        // IMPORTANT: These two lines tell the CMS where to save your physical photos
+        media_folder: "assets/products", 
         public_folder: "/assets/products",
         collections: [
           {
@@ -26,7 +31,8 @@
               {label: "Name", name: "name", widget: "string"},
               {label: "Price", name: "price", widget: "string"},
               {label: "Category", name: "category", widget: "select", options: ["AirPods", "Watches", "Bags", "Sunglasses"]},
-              {label: "Product Image", name: "image", widget: "image"}, // ADDED: The upload button
+              // This 'widget: "image"' line is what creates the Upload button
+              {label: "Product Image", name: "image", widget: "image", choose_url: false}, 
               {label: "Description", name: "body", widget: "markdown"}
             ]
           }
@@ -34,7 +40,5 @@
       }
     };
   </script>
-</head>
-<body>
 </body>
 </html>
