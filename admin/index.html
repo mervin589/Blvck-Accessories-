@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blvck Accessories Admin</title>
+  <!-- Using the most stable version of the CMS -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </head>
 <body>
@@ -12,14 +13,19 @@
       config: {
         backend: {
           name: 'github',
-          repo: 'Mervin-Kasonga/Blvck-Accessories', // Verify this matches your GitHub repo path
+          repo: 'Mervin-Kasonga/Blvck-Accessories',
           branch: 'main',
+          commit_messages: {
+            create: 'Create {{collection}} “{{slug}}”',
+            update: 'Update {{collection}} “{{slug}}”',
+            delete: 'Delete {{collection}} “{{slug}}”',
+            uploadMedia: 'Upload {{path}}',
+            deleteMedia: 'Delete {{path}}'
+          }
         },
-        // THESE TWO LINES ARE CRITICAL FOR THE UPLOAD BUTTON
-        media_folder: 'assets/products', 
-        public_folder: '/assets/products',
-        
-        site_url: 'https://mervin-kasonga.github.io/Blvck-Accessories',
+        // We define these at the root level so the CMS knows where to write files
+        media_folder: 'assets/images/products', 
+        public_folder: '/assets/images/products',
         
         collections: [
           {
@@ -27,23 +33,21 @@
             label: 'Products',
             folder: '_products',
             create: true,
-            slug: '{{slug}}',
             fields: [
-              { label: 'Name', name: 'title', widget: 'string' },
+              { label: 'Title', name: 'title', widget: 'string' },
               { label: 'Price', name: 'price', widget: 'string' },
-              { label: 'Category', name: 'category', widget: 'string' },
-              // ADDING 'choose_url: false' FORCES THE UPLOAD DIALOG
               { 
                 label: 'Product Image', 
                 name: 'image', 
-                widget: 'image', 
-                choose_url: false 
+                widget: 'image',
+                allow_add: true, // Forces the 'Add Image' option
+                choose_url: false // Disables the 'Insert from URL' field
               },
-              { label: 'Description', name: 'body', widget: 'markdown' }
-            ],
-          },
-        ],
-      },
+              { label: 'Body', name: 'body', widget: 'markdown' }
+            ]
+          }
+        ]
+      }
     });
   </script>
 </body>
