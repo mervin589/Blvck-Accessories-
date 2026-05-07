@@ -1,43 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Content Manager</title>
-  <link rel="stylesheet" href="https://unpkg.com/@staticcms/core@^4.0.0/dist/static-cms.css" />
+  <title>Blvck Accessories Admin</title>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </head>
 <body>
-  <script src="https://unpkg.com/@staticcms/core@^4.0.0/dist/static-cms.js"></script>
   <script>
-    window.CMS.init({
+    CMS.init({
       config: {
         backend: {
-          name: "github",
-          repo: "mervin589/Blvck-Accessories-",
-          branch: "main",
-
-          auth_endpoint: "https://api.staticcms.org/v1/auth"
+          name: 'github',
+          repo: 'Mervin-Kasonga/Blvck-Accessories', // Verify this matches your GitHub repo path
+          branch: 'main',
         },
-        load_config_file: false,
-        media_folder: "assets/products",
-        public_folder: "/assets/products",
+        // THESE TWO LINES ARE CRITICAL FOR THE UPLOAD BUTTON
+        media_folder: 'assets/products', 
+        public_folder: '/assets/products',
+        
+        site_url: 'https://mervin-kasonga.github.io/Blvck-Accessories',
+        
         collections: [
           {
-            name: "products",
-            label: "Products",
-            folder: "_products",
+            name: 'products',
+            label: 'Products',
+            folder: '_products',
             create: true,
-            slug: "{{name}}",
+            slug: '{{slug}}',
             fields: [
-              { label: "Name", name: "name", widget: "string" },
-              { label: "Price", name: "price", widget: "string" },
-              { label: "Category", name: "category", widget: "select", options: ["AirPods", "Watches", "Bags", "Sunglasses"] },
-              { label: "Product Image", name: "image", widget: "image", choose_url: false },
-              { label: "Description", name: "body", widget: "markdown" }
-            ]
-          }
-        ]
-      }
+              { label: 'Name', name: 'title', widget: 'string' },
+              { label: 'Price', name: 'price', widget: 'string' },
+              { label: 'Category', name: 'category', widget: 'string' },
+              // ADDING 'choose_url: false' FORCES THE UPLOAD DIALOG
+              { 
+                label: 'Product Image', 
+                name: 'image', 
+                widget: 'image', 
+                choose_url: false 
+              },
+              { label: 'Description', name: 'body', widget: 'markdown' }
+            ],
+          },
+        ],
+      },
     });
   </script>
 </body>
