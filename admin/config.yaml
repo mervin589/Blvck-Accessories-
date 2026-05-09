@@ -1,0 +1,19 @@
+backend:
+  name: github
+  repo: mervin589/Blvck-Accessories-
+  branch: main
+
+media_folder: "assets/images/products"
+public_folder: "/assets/images/products"
+
+collections:
+  - name: "products"
+    label: "Products"
+    folder: "_products"
+    create: true
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Price", name: "price", widget: "number"}
+      - {label: "Category", name: "category", widget: "select", options: ["Bags", "Necklaces", "Accessories"]}
+      - {label: "Product Image", name: "image", widget: "image"}
+      - {label: "Description", name: "body", widget: "markdown"}
