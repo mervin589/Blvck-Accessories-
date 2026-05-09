@@ -3,52 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blvck Accessories Admin</title>
-  <!-- Using the most stable version of the CMS -->
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <title>Content Manager</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
-  <script>
-    CMS.init({
-      config: {
-        backend: {
-          name: 'github',
-          repo: 'Mervin-Kasonga/Blvck-Accessories',
-          branch: 'main',
-          commit_messages: {
-            create: 'Create {{collection}} “{{slug}}”',
-            update: 'Update {{collection}} “{{slug}}”',
-            delete: 'Delete {{collection}} “{{slug}}”',
-            uploadMedia: 'Upload {{path}}',
-            deleteMedia: 'Delete {{path}}'
-          }
-        },
-        // We define these at the root level so the CMS knows where to write files
-        media_folder: 'assets/images/products', 
-        public_folder: '/assets/images/products',
-        
-        collections: [
-          {
-            name: 'products',
-            label: 'Products',
-            folder: '_products',
-            create: true,
-            fields: [
-              { label: 'Title', name: 'title', widget: 'string' },
-              { label: 'Price', name: 'price', widget: 'string' },
-              { 
-                label: 'Product Image', 
-                name: 'image', 
-                widget: 'image',
-                allow_add: true, // Forces the 'Add Image' option
-                choose_url: false // Disables the 'Insert from URL' field
-              },
-              { label: 'Body', name: 'body', widget: 'markdown' }
-            ]
-          }
-        ]
-      }
-    });
-  </script>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </body>
 </html>
